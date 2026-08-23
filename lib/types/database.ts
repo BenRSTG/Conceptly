@@ -324,7 +324,16 @@ export interface Database {
       >;
       newsletter_campaigns: TableDef<
         NewsletterCampaignRow,
-        Omit<NewsletterCampaignRow, "id" | "created_at"> & { id?: string }
+        Omit<
+          NewsletterCampaignRow,
+          "id" | "created_at" | "status" | "scheduled_at" | "sent_at" | "recipient_count"
+        > & {
+          id?: string;
+          status?: CampaignStatus;
+          scheduled_at?: string | null;
+          sent_at?: string | null;
+          recipient_count?: number | null;
+        }
       >;
       customer_messages: TableDef<
         CustomerMessageRow,

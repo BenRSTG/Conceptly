@@ -5,7 +5,8 @@ TypeScript · Tailwind CSS v4 · Supabase (Postgres, Auth, Storage) · Stripe +
 PayPal · Resend.
 
 **Aktueller Stand: Phase 0 (Fundament) + Modul 5 (Admin-Produktverwaltung) +
-Modul 6 (Shop-Frontend & Checkout) + Modul 7 (Kundenbereich) abgeschlossen.**
+Modul 6 (Shop-Frontend & Checkout) + Modul 7 (Kundenbereich) + Modul 8
+(Newsletter-Verwaltung) abgeschlossen.**
 Next.js-Projekt steht, das vollständige Datenmodell aus der
 Spec liegt als Supabase-Migration vor, das echte Conceptly-Branding ist
 eingebunden (siehe unten), die Startseite und ein erster `/shop`-Grundgerüst
@@ -50,8 +51,16 @@ Standardadresse automatisch, wenn ein Kunde eingeloggt ist, und verknüpft
 die Bestellung mit dem Konto — bleibt aber weiterhin ohne Login nutzbar. Der
 Nachrichten-Tab ist als Platzhalter angelegt, bis Modul 9 folgt.
 
-Als Nächstes: Modul 8 (Newsletter-Verwaltung im Admin-Bereich — der
-öffentliche Double-Opt-In-Flow läuft bereits seit Phase 0).
+Modul 8 ergänzt die fehlende Admin-Seite unter `/admin/newsletter`:
+Kampagnen erstellen (Betreff + HTML-Body mit Live-Vorschau), als Entwurf
+speichern/bearbeiten/löschen, und per Klick an alle „confirmed"-
+Abonnent:innen versenden (Resend Batch-API, in 100er-Chargen). Jede
+versendete Mail bekommt automatisch einen personalisierten Abmelde-Link
+(über den `confirm_token` der/des jeweiligen Abonnent:in) angehängt —
+Pflicht laut DSGVO. Versendete Kampagnen sind schreibgeschützt und zeigen
+Versanddatum + Empfängerzahl.
+
+Als Nächstes: Modul 9 (Kunden-Messaging).
 
 ## Setup
 
