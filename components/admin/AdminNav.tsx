@@ -4,6 +4,8 @@ const LINKS = [
   { href: "/admin", label: "Übersicht" },
   { href: "/admin/produkte", label: "Produkte" },
   { href: "/admin/kategorien", label: "Kategorien" },
+  { href: "/admin/bestellungen", label: "Bestellungen" },
+  { href: "/admin/kunden", label: "Kunden" },
   { href: "/admin/newsletter", label: "Newsletter" },
 ];
 

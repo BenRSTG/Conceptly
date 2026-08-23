@@ -337,7 +337,12 @@ export interface Database {
       >;
       customer_messages: TableDef<
         CustomerMessageRow,
-        Omit<CustomerMessageRow, "id" | "created_at"> & { id?: string }
+        Omit<CustomerMessageRow, "id" | "created_at" | "order_id" | "subject" | "read"> & {
+          id?: string;
+          order_id?: string | null;
+          subject?: string | null;
+          read?: boolean;
+        }
       >;
       instagram_post_assets: TableDef<
         InstagramPostAssetRow,

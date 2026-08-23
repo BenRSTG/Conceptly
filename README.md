@@ -6,7 +6,7 @@ PayPal · Resend.
 
 **Aktueller Stand: Phase 0 (Fundament) + Modul 5 (Admin-Produktverwaltung) +
 Modul 6 (Shop-Frontend & Checkout) + Modul 7 (Kundenbereich) + Modul 8
-(Newsletter-Verwaltung) abgeschlossen.**
+(Newsletter-Verwaltung) + Modul 9 (Kunden-Messaging) abgeschlossen.**
 Next.js-Projekt steht, das vollständige Datenmodell aus der
 Spec liegt als Supabase-Migration vor, das echte Conceptly-Branding ist
 eingebunden (siehe unten), die Startseite und ein erster `/shop`-Grundgerüst
@@ -60,7 +60,20 @@ versendete Mail bekommt automatisch einen personalisierten Abmelde-Link
 Pflicht laut DSGVO. Versendete Kampagnen sind schreibgeschützt und zeigen
 Versanddatum + Empfängerzahl.
 
-Als Nächstes: Modul 9 (Kunden-Messaging).
+Modul 9 ergänzt Kunden-Messaging zwischen Admin und Kund:in. Da die Spec
+dafür „Kundenliste oder Bestellansicht" als Einstiegspunkte nennt, es aber
+noch keine Admin-Bestellverwaltung gab, hat dieses Modul zusätzlich zwei
+neue Admin-Seiten mitgebracht, die eigentlich Voraussetzung waren:
+`/admin/bestellungen` (Liste + Status-/Sendungsnummer-Editor pro Bestellung)
+und `/admin/kunden` (Kundenliste mit Ungelesen-Badge). Von beiden aus lässt
+sich eine Nachricht an eine:n Kund:in schreiben (optional mit Bestellbezug);
+sie wird per Resend zugestellt UND erscheint im Kundenbereich unter
+`/account/nachrichten`, wo Kund:innen direkt antworten können — die Antwort
+landet als Admin-Benachrichtigung (falls `ADMIN_NOTIFICATION_EMAIL` gesetzt
+ist) und im Admin-Postfach. Einfaches Thread-System pro Kunde (optional mit
+Bestellbezug), keine Live-Chat-Infrastruktur.
+
+Als Nächstes: Modul 10 (Instagram-Post-Generator).
 
 ## Setup
 
