@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/*
+ * Conceptly Markenwelt — Richtwerte aus dem Logo (Conceptly_-_Final.pdf).
+ * Die exakten Hex-Werte sollten mit dem Original-PDF abgeglichen werden,
+ * sobald es als Datei vorliegt; bis dahin sind dies die im Build-Prompt
+ * vorgegebenen Richtwerte.
+ */
+:root {
+  --color-anthracite: #2a2a2e;
+  --color-anthracite-soft: #46464b;
+  --color-sand: #c9ae87;
+  --color-sand-light: #e8dcc8;
+  --color-sand-dark: #a98c62;
+  --color-cream: #faf7f2;
+
+  --background: #ffffff;
+  --foreground: var(--color-anthracite);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-anthracite: var(--color-anthracite);
+  --color-anthracite-soft: var(--color-anthracite-soft);
+  --color-sand: var(--color-sand);
+  --color-sand-light: var(--color-sand-light);
+  --color-sand-dark: var(--color-sand-dark);
+  --color-cream: var(--color-cream);
+  --font-sans: var(--font-body);
+  --font-script: var(--font-script);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+}
