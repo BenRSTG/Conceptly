@@ -6,7 +6,8 @@ PayPal · Resend.
 
 **Aktueller Stand: Phase 0 (Fundament) + Modul 5 (Admin-Produktverwaltung) +
 Modul 6 (Shop-Frontend & Checkout) + Modul 7 (Kundenbereich) + Modul 8
-(Newsletter-Verwaltung) + Modul 9 (Kunden-Messaging) abgeschlossen.**
+(Newsletter-Verwaltung) + Modul 9 (Kunden-Messaging) + Modul 10
+(Instagram-Post-Generator) abgeschlossen.**
 Next.js-Projekt steht, das vollständige Datenmodell aus der
 Spec liegt als Supabase-Migration vor, das echte Conceptly-Branding ist
 eingebunden (siehe unten), die Startseite und ein erster `/shop`-Grundgerüst
@@ -73,7 +74,21 @@ landet als Admin-Benachrichtigung (falls `ADMIN_NOTIFICATION_EMAIL` gesetzt
 ist) und im Admin-Postfach. Einfaches Thread-System pro Kunde (optional mit
 Bestellbezug), keine Live-Chat-Infrastruktur.
 
-Als Nächstes: Modul 10 (Instagram-Post-Generator).
+Modul 10 ergänzt den Instagram-Post-Generator im Produkt-Editor: Button
+„Instagram-Post generieren" (Quadrat 1080×1080 oder Story 1080×1920),
+serverseitig gerendert mit `next/og` (Satori/`@vercel/og`, in Next.js
+integriert) aus Produktfoto + Titel + Preis + echtem Conceptly-
+Logo-Overlay (`lib/instagram/renderPostImage.tsx`). Caption-Vorschlag
+(Kurzbeschreibung + CTA) und Hashtag-Vorschläge (Kategorie- + Marken-Tags)
+werden automatisch generiert, mit „Kopieren"-Button. Bild landet in einem
+neuen `instagram-posts`-Storage-Bucket, Datensatz in
+`instagram_post_assets` — kein automatisches Posten, Ben lädt manuell
+herunter und teilt selbst. Die Bildgenerierung wurde lokal gegen eine echte
+Route verifiziert (Branding-Overlay, Preis, Remote-Bild-Fetch laden
+korrekt); der volle Weg über Supabase-Storage-URLs eines echten Produkts
+ließ sich ohne Projekt nicht end-to-end testen.
+
+Als Nächstes: Modul 11 (Reporting-Dashboard) — das letzte offene Modul.
 
 ## Setup
 

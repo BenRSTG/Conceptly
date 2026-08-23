@@ -5,6 +5,7 @@ import { updateProduct } from "../actions";
 import { ProductEditor } from "./ProductEditor";
 import { ImageUploader } from "./ImageUploader";
 import { VariantEditor } from "./VariantEditor";
+import { InstagramGenerator } from "./InstagramGenerator";
 
 export const metadata: Metadata = { title: "Produkt bearbeiten" };
 
@@ -14,7 +15,7 @@ export default async function EditProductPage({
   const { id } = await params;
   const supabase = await createClient();
 
-  const [{ data: product }, { data: categories }, { data: images }, { data: variants }] =
+  const [{ data: product }, { data: categories }, { data: images }, { data: variants }, { data: instagramAssets }] =
     await Promise.all([
       supabase.from("products").select("*").eq("id", id).maybeSingle(),
       supabase.from("categories").select("id, name").order("sort_order"),
@@ -27,6 +28,11 @@ export default async function EditProductPage({
         .from("product_variants")
         .select("id, variant_name, sku, price_override, stock_quantity")
         .eq("product_id", id),
+      supabase
+        .from("instagram_post_assets")
+        .select("id, image_storage_path, caption_text, hashtags, format, created_at")
+        .eq("product_id", id)
+        .order("created_at", { ascending: false }),
     ]);
 
   if (!product) notFound();
@@ -58,6 +64,19 @@ export default async function EditProductPage({
         <h2 className="text-sm font-semibold tracking-wide text-anthracite uppercase">Varianten</h2>
         <div className="mt-3">
           <VariantEditor productId={id} variants={variants ?? []} />
+        </div>
+      </div>
+
+      <div className="mt-10">
+        <h2 className="text-sm font-semibold tracking-wide text-anthracite uppercase">
+          Instagram-Post
+        </h2>
+        <div className="mt-3">
+          <InstagramGenerator
+            productId={id}
+            publicBaseUrl={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/instagram-posts`}
+            pastAssets={instagramAssets ?? []}
+          />
         </div>
       </div>
     </div>
