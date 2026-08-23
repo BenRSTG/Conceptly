@@ -213,6 +213,13 @@ export async function markOrderPaid(orderId: string) {
       reason: "order",
       order_id: orderId,
     });
+
+    await supabase.from("shop_events").insert({
+      event_type: "purchase",
+      product_id: item.product_id,
+      customer_id: order.customer_id,
+      metadata: { order_id: orderId, quantity: item.quantity, unit_price: item.unit_price },
+    });
   }
 
   try {

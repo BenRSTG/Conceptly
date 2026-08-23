@@ -4,10 +4,11 @@ Webshop für kuratierte Deko- und Lifestyle-Produkte. Next.js (App Router) ·
 TypeScript · Tailwind CSS v4 · Supabase (Postgres, Auth, Storage) · Stripe +
 PayPal · Resend.
 
-**Aktueller Stand: Phase 0 (Fundament) + Modul 5 (Admin-Produktverwaltung) +
-Modul 6 (Shop-Frontend & Checkout) + Modul 7 (Kundenbereich) + Modul 8
-(Newsletter-Verwaltung) + Modul 9 (Kunden-Messaging) + Modul 10
-(Instagram-Post-Generator) abgeschlossen.**
+**Aktueller Stand: Alle 12 Module der Spec sind abgeschlossen** — Phase 0
+(Fundament), Modul 5 (Admin-Produktverwaltung), Modul 6 (Shop-Frontend &
+Checkout), Modul 7 (Kundenbereich), Modul 8 (Newsletter-Verwaltung),
+Modul 9 (Kunden-Messaging), Modul 10 (Instagram-Post-Generator), Modul 11
+(Reporting-Dashboard) und Modul 12 (rechtliche Pflichtseiten).
 Next.js-Projekt steht, das vollständige Datenmodell aus der
 Spec liegt als Supabase-Migration vor, das echte Conceptly-Branding ist
 eingebunden (siehe unten), die Startseite und ein erster `/shop`-Grundgerüst
@@ -88,7 +89,24 @@ Route verifiziert (Branding-Overlay, Preis, Remote-Bild-Fetch laden
 korrekt); der volle Weg über Supabase-Storage-URLs eines echten Produkts
 ließ sich ohne Projekt nicht end-to-end testen.
 
-Als Nächstes: Modul 11 (Reporting-Dashboard) — das letzte offene Modul.
+Modul 11 ergänzt das Reporting-Dashboard unter `/admin/reporting`: Umsatz
+pro Tag (letzte 30 Tage, als einfaches CSS-Balkendiagramm ohne
+Chart-Library), Bestellanzahl, Ø Bestellwert, Top-Produkte nach Umsatz und
+Stückzahl, Conversion-Funnel (view_item → add_to_cart → begin_checkout →
+purchase), Traffic-Quellen nach UTM-Parametern, Wiederkaufsrate und eine
+Lagerbestand-Warnübersicht. CSV-Export für Bestellungen (inkl. aller
+Umsatz-Felder) unter `/api/admin/export/orders`.
+
+Damit der Funnel und die Traffic-Auswertung echte Daten zeigen, wurde
+client-seitiges Event-Tracking neu eingeführt (`lib/analytics/`):
+`view_item` auf der Produktseite, `add_to_cart` beim Hinzufügen,
+`begin_checkout` beim Checkout-Seitenaufruf, `purchase` serverseitig in
+`markOrderPaid` (ein Event pro Bestellposition). UTM-Parameter aus der URL
+werden beim ersten Seitenaufruf einer Session in `localStorage` gemerkt und
+an nachfolgende Events angehängt. Alles Fire-and-Forget — Tracking-Fehler
+dürfen den Einkauf nie blockieren.
+
+Damit sind alle 12 Module der ursprünglichen Spec umgesetzt.
 
 ## Setup
 

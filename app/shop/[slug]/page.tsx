@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { ProductGallery } from "@/components/shop/ProductGallery";
 import { AddToCartForm } from "@/components/shop/AddToCartForm";
+import { ViewItemTracker } from "@/components/shop/ViewItemTracker";
 
 async function getProduct(slug: string) {
   const supabase = await createClient();
@@ -57,6 +58,7 @@ export default async function ProductDetailPage({ params }: PageProps<"/shop/[sl
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
+      <ViewItemTracker productId={product.id} />
       <div className="grid gap-10 lg:grid-cols-2">
         <ProductGallery images={galleryImages} title={product.title} />
 

@@ -3,6 +3,7 @@ import { Inter, Yellowtail } from "next/font/google";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { CartProvider } from "@/lib/cart/CartContext";
+import { UtmCapture } from "@/components/analytics/UtmCapture";
 import "./globals.css";
 
 const bodyFont = Inter({
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col bg-white text-anthracite">
         <CartProvider>
+          <UtmCapture />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

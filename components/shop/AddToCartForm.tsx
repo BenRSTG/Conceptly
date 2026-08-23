@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart/CartContext";
 import { formatPrice } from "@/lib/utils";
+import { trackShopEvent } from "@/lib/analytics/trackEvent";
 
 type Variant = {
   id: string;
@@ -68,6 +69,7 @@ export function AddToCartForm({
       },
       quantity,
     );
+    trackShopEvent("add_to_cart", productId, { quantity, variant_id: variantId });
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 2000);
   }

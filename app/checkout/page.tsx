@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/lib/cart/CartContext";
 import { calculateShipping } from "@/lib/shipping";
 import { formatPrice } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { trackShopEvent } from "@/lib/analytics/trackEvent";
 
 const inputClass =
   "mt-1 w-full rounded-lg border border-anthracite/20 px-3 py-2 text-sm focus:border-sand-dark focus:outline-none";
@@ -24,6 +25,17 @@ export default function CheckoutPage() {
   });
   const [pending, setPending] = useState<"stripe" | "paypal" | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const trackedBeginCheckout = useRef(false);
+
+  useEffect(() => {
+    if (items.length > 0 && !trackedBeginCheckout.current) {
+      trackedBeginCheckout.current = true;
+      trackShopEvent("begin_checkout", null, {
+        item_count: items.length,
+        subtotal,
+      });
+    }
+  }, [items, subtotal]);
 
   useEffect(() => {
     // Für eingeloggte Kunden E-Mail + Standardadresse vorausfüllen — rein

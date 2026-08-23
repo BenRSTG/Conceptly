@@ -316,7 +316,13 @@ export interface Database {
       >;
       shop_events: TableDef<
         ShopEventRow,
-        Omit<ShopEventRow, "id" | "created_at"> & { id?: string }
+        Omit<ShopEventRow, "id" | "created_at" | "product_id" | "session_id" | "customer_id" | "metadata"> & {
+          id?: string;
+          product_id?: string | null;
+          session_id?: string | null;
+          customer_id?: string | null;
+          metadata?: Record<string, unknown>;
+        }
       >;
       newsletter_subscribers: TableDef<
         NewsletterSubscriberRow,
