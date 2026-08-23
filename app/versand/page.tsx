@@ -13,9 +13,11 @@ export default function VersandPage() {
 
       <h2>Versandkosten</h2>
       <p>
-        Die Versandkosten staffeln sich nach Gewicht und Bestellwert und
-        werden im Checkout vor Kaufabschluss angezeigt. [Konkrete
-        Staffelpreise ergänzen, z. B. ab 60 € versandkostenfrei.]
+        Ab einem Bestellwert von 60 € versenden wir versandkostenfrei.
+        Darunter staffeln sich die Versandkosten nach Gewicht: 4,95 € bis
+        1 kg, 6,95 € bis 5 kg, darüber 9,95 €. [Platzhalterwerte — mit den
+        tatsächlichen Versandkonditionen abgleichen; siehe
+        <code>lib/shipping.ts</code>.]
       </p>
 
       <h2>Lieferzeit</h2>

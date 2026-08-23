@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Yellowtail } from "next/font/google";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { CartProvider } from "@/lib/cart/CartContext";
 import "./globals.css";
 
 const bodyFont = Inter({
@@ -31,9 +32,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${bodyFont.variable} ${scriptFont.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-white text-anthracite">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <CartProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

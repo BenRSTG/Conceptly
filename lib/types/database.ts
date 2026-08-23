@@ -243,7 +243,13 @@ export interface Database {
       >;
       product_variants: TableDef<
         ProductVariantRow,
-        Omit<ProductVariantRow, "id"> & { id?: string }
+        Omit<ProductVariantRow, "id" | "sku" | "price_override" | "stock_quantity" | "attributes"> & {
+          id?: string;
+          sku?: string | null;
+          price_override?: number | null;
+          stock_quantity?: number | null;
+          attributes?: Record<string, unknown>;
+        }
       >;
       customers: TableDef<CustomerRow, Omit<CustomerRow, "created_at">>;
       addresses: TableDef<
@@ -252,15 +258,50 @@ export interface Database {
       >;
       orders: TableDef<
         OrderRow,
-        Omit<OrderRow, "id" | "created_at" | "updated_at"> & { id?: string }
+        Omit<
+          OrderRow,
+          | "id"
+          | "created_at"
+          | "updated_at"
+          | "customer_id"
+          | "status"
+          | "payment_provider"
+          | "payment_reference"
+          | "shipping_cost"
+          | "tax_amount"
+          | "shipping_address"
+          | "billing_address"
+          | "tracking_number"
+        > & {
+          id?: string;
+          customer_id?: string | null;
+          status?: OrderStatus;
+          payment_provider?: PaymentProvider | null;
+          payment_reference?: string | null;
+          shipping_cost?: number;
+          tax_amount?: number;
+          shipping_address?: Record<string, unknown> | null;
+          billing_address?: Record<string, unknown> | null;
+          tracking_number?: string | null;
+        }
       >;
       order_items: TableDef<
         OrderItemRow,
-        Omit<OrderItemRow, "id"> & { id?: string }
+        Omit<OrderItemRow, "id" | "product_id" | "variant_id"> & {
+          id?: string;
+          product_id?: string | null;
+          variant_id?: string | null;
+        }
       >;
       stock_movements: TableDef<
         StockMovementRow,
-        Omit<StockMovementRow, "id" | "created_at"> & { id?: string }
+        Omit<StockMovementRow, "id" | "created_at" | "product_id" | "variant_id" | "reason" | "order_id"> & {
+          id?: string;
+          product_id?: string | null;
+          variant_id?: string | null;
+          reason?: string | null;
+          order_id?: string | null;
+        }
       >;
       shop_events: TableDef<
         ShopEventRow,

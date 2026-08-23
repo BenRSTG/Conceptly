@@ -4,8 +4,8 @@ Webshop für kuratierte Deko- und Lifestyle-Produkte. Next.js (App Router) ·
 TypeScript · Tailwind CSS v4 · Supabase (Postgres, Auth, Storage) · Stripe +
 PayPal · Resend.
 
-**Aktueller Stand: Phase 0 (Fundament) + Modul 5 (Admin-Produktverwaltung)
-abgeschlossen.** Next.js-Projekt steht, das vollständige Datenmodell aus der
+**Aktueller Stand: Phase 0 (Fundament) + Modul 5 (Admin-Produktverwaltung) +
+Modul 6 (Shop-Frontend & Checkout) abgeschlossen.** Next.js-Projekt steht, das vollständige Datenmodell aus der
 Spec liegt als Supabase-Migration vor, das echte Conceptly-Branding ist
 eingebunden (siehe unten), die Startseite und ein erster `/shop`-Grundgerüst
 sind live, die DSGVO-konforme Newsletter-Anmeldung (Double-Opt-In via
@@ -23,7 +23,22 @@ Admin-Login und ein echtes Supabase-Projekt sind nötig, um den Bereich zu
 testen — lokal ohne Zugangsdaten konnte nur das Auth-Gate selbst
 (Redirect-Verhalten) geprüft werden, nicht die Formulare/Uploads dahinter.
 
-Als Nächstes: Modul 6 (Shop-Frontend & Checkout mit Stripe/PayPal).
+Modul 6 ergänzt das Shop-Frontend & den Checkout: `/shop` mit Kategorie-/
+Preis-/Verfügbarkeits-Filtern, Produktdetailseiten mit Bildergalerie und
+Varianten-Auswahl, ein per `localStorage` persistierter Warenkorb (Gast-
+Checkout, kein Login nötig), eine Versandkosten-Staffel nach Gewicht/
+Bestellwert (`lib/shipping.ts`, Platzhalterwerte), sowie Stripe Checkout und
+PayPal Orders v2 als Zahlungsarten. Der Checkout-Flow legt serverseitig eine
+`pending`-Bestellung an (Preise werden aus der DB neu berechnet, nie vom
+Client übernommen), leitet zum jeweiligen Zahlungsanbieter weiter und
+verarbeitet `checkout.session.completed` (Stripe) bzw.
+`CHECKOUT.ORDER.APPROVED`/`PAYMENT.CAPTURE.COMPLETED` (PayPal) idempotent
+über `lib/orders.ts::markOrderPaid` — setzt den Bestellstatus, reduziert den
+Lagerbestand und verschickt die Bestätigungsmail. Ohne echte Stripe-/
+PayPal-/Supabase-Zugangsdaten ließ sich nur das Fehlerverhalten der Routen
+(sauberes 400 statt Absturz) prüfen, nicht der komplette Zahlungsablauf.
+
+Als Nächstes: Modul 7 (Kundenbereich mit Login, Bestellhistorie, Adressen).
 
 ## Setup
 

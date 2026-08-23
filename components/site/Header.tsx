@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { CartLink } from "@/components/site/CartLink";
 
 const NAV_LINKS = [
   { href: "/shop", label: "Shop" },
@@ -29,9 +30,7 @@ export function Header() {
           <Link href="/account" className="hover:text-sand-dark">
             Konto
           </Link>
-          <Link href="/warenkorb" className="hover:text-sand-dark">
-            Warenkorb
-          </Link>
+          <CartLink />
         </div>
       </div>
     </header>
