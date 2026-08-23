@@ -37,6 +37,7 @@ export async function createPendingOrder(
   items: CartItemInput[],
   customerEmail: string,
   shippingAddress: CheckoutAddress,
+  customerId?: string | null,
 ) {
   if (items.length === 0) {
     throw new CheckoutError("Der Warenkorb ist leer.");
@@ -121,6 +122,7 @@ export async function createPendingOrder(
     .from("orders")
     .insert({
       order_number: generateOrderNumber(),
+      customer_id: customerId ?? null,
       customer_email: customerEmail,
       subtotal: Math.round(subtotal * 100) / 100,
       shipping_cost: shippingCost,

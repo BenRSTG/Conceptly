@@ -7,6 +7,7 @@ import {
 import { checkoutRequestSchema } from "@/lib/checkout/schema";
 import { createPendingOrder, attachPaymentReference, CheckoutError } from "@/lib/orders";
 import { getPaypalOrdersController } from "@/lib/paypal";
+import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
   const parsed = checkoutRequestSchema.safeParse(await request.json());
@@ -15,10 +16,16 @@ export async function POST(request: Request) {
   }
 
   try {
+    const supabaseSession = await createClient();
+    const {
+      data: { user },
+    } = await supabaseSession.auth.getUser();
+
     const { order, items } = await createPendingOrder(
       parsed.data.items,
       parsed.data.email,
       parsed.data.address,
+      user?.id,
     );
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? new URL(request.url).origin;

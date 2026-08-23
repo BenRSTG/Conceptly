@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/lib/cart/CartContext";
 import { calculateShipping } from "@/lib/shipping";
 import { formatPrice } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
 
 const inputClass =
   "mt-1 w-full rounded-lg border border-anthracite/20 px-3 py-2 text-sm focus:border-sand-dark focus:outline-none";
@@ -23,6 +24,39 @@ export default function CheckoutPage() {
   });
   const [pending, setPending] = useState<"stripe" | "paypal" | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Für eingeloggte Kunden E-Mail + Standardadresse vorausfüllen — rein
+    // komfortbedingt, der Checkout funktioniert unverändert als Gast.
+    const supabase = createClient();
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!user) return;
+      setEmail((current) => current || user.email || "");
+
+      const { data: customer } = await supabase
+        .from("customers")
+        .select("full_name")
+        .eq("id", user.id)
+        .maybeSingle();
+      const { data: defaultAddress } = await supabase
+        .from("addresses")
+        .select("street, house_number, postal_code, city, country")
+        .eq("customer_id", user.id)
+        .eq("is_default", true)
+        .maybeSingle();
+
+      if (customer || defaultAddress) {
+        setAddress((current) => ({
+          fullName: current.fullName || customer?.full_name || "",
+          street: current.street || defaultAddress?.street || "",
+          houseNumber: current.houseNumber || defaultAddress?.house_number || "",
+          postalCode: current.postalCode || defaultAddress?.postal_code || "",
+          city: current.city || defaultAddress?.city || "",
+          country: defaultAddress?.country || current.country,
+        }));
+      }
+    });
+  }, []);
 
   const shipping = items.length > 0 ? calculateShipping(subtotal, totalWeightGrams) : 0;
 
@@ -81,7 +115,12 @@ export default function CheckoutPage() {
     <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6">
       <h1 className="font-script text-4xl text-anthracite">Kasse</h1>
       <p className="mt-2 text-sm text-anthracite-soft">
-        Kein Konto nötig — mit Login findest du deine Bestellungen später im Kundenbereich wieder.
+        Kein Konto nötig — mit{" "}
+        <Link href="/account/login" className="underline">
+          Login
+        </Link>{" "}
+        findest du deine Bestellungen später im Kundenbereich wieder und E-Mail/Adresse werden
+        vorausgefüllt.
       </p>
 
       <div className="mt-8 space-y-4">

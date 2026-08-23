@@ -251,10 +251,21 @@ export interface Database {
           attributes?: Record<string, unknown>;
         }
       >;
-      customers: TableDef<CustomerRow, Omit<CustomerRow, "created_at">>;
+      customers: TableDef<
+        CustomerRow,
+        Omit<CustomerRow, "created_at" | "full_name" | "phone" | "newsletter_opt_in"> & {
+          full_name?: string | null;
+          phone?: string | null;
+          newsletter_opt_in?: boolean;
+        }
+      >;
       addresses: TableDef<
         AddressRow,
-        Omit<AddressRow, "id"> & { id?: string }
+        Omit<AddressRow, "id" | "label" | "is_default"> & {
+          id?: string;
+          label?: string | null;
+          is_default?: boolean;
+        }
       >;
       orders: TableDef<
         OrderRow,

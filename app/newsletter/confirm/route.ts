@@ -15,12 +15,15 @@ export async function GET(request: NextRequest) {
     .update({ status: "confirmed", confirmed_at: new Date().toISOString() })
     .eq("confirm_token", token)
     .neq("status", "unsubscribed")
-    .select("id")
+    .select("id, email")
     .maybeSingle();
 
   if (error || !data) {
     return NextResponse.redirect(`${siteUrl}/newsletter/status?result=invalid`);
   }
+
+  // Falls die E-Mail zu einem Kundenkonto gehört, Profil-Anzeige synchron halten.
+  await supabase.from("customers").update({ newsletter_opt_in: true }).eq("email", data.email);
 
   return NextResponse.redirect(`${siteUrl}/newsletter/status?result=confirmed`);
 }

@@ -10,7 +10,7 @@ export function NewsletterForm({
   source = "footer",
   className,
 }: {
-  source?: "footer" | "checkout" | "popup";
+  source?: "footer" | "checkout" | "popup" | "profile";
   className?: string;
 }) {
   const [state, formAction, pending] = useActionState(

@@ -5,7 +5,8 @@ TypeScript · Tailwind CSS v4 · Supabase (Postgres, Auth, Storage) · Stripe +
 PayPal · Resend.
 
 **Aktueller Stand: Phase 0 (Fundament) + Modul 5 (Admin-Produktverwaltung) +
-Modul 6 (Shop-Frontend & Checkout) abgeschlossen.** Next.js-Projekt steht, das vollständige Datenmodell aus der
+Modul 6 (Shop-Frontend & Checkout) + Modul 7 (Kundenbereich) abgeschlossen.**
+Next.js-Projekt steht, das vollständige Datenmodell aus der
 Spec liegt als Supabase-Migration vor, das echte Conceptly-Branding ist
 eingebunden (siehe unten), die Startseite und ein erster `/shop`-Grundgerüst
 sind live, die DSGVO-konforme Newsletter-Anmeldung (Double-Opt-In via
@@ -38,7 +39,19 @@ Lagerbestand und verschickt die Bestätigungsmail. Ohne echte Stripe-/
 PayPal-/Supabase-Zugangsdaten ließ sich nur das Fehlerverhalten der Routen
 (sauberes 400 statt Absturz) prüfen, nicht der komplette Zahlungsablauf.
 
-Als Nächstes: Modul 7 (Kundenbereich mit Login, Bestellhistorie, Adressen).
+Modul 7 ergänzt den Kundenbereich unter `/account` (Supabase-Auth-Login +
+Registrierung, `customers`-Zeile wird bei Bedarf lazy angelegt): Dashboard
+mit letzten Bestellungen, vollständige Bestellhistorie mit Status-Tracking
+(inkl. Sendungsnummer, sobald gesetzt), Adressverwaltung (mehrere Adressen,
+eine Standardadresse), Profilbearbeitung (Name/Telefon) sowie
+Newsletter-An-/Abmeldung direkt im Profil (nutzt denselben
+Double-Opt-In-Flow aus Modul 8). Der Checkout füllt E-Mail und
+Standardadresse automatisch, wenn ein Kunde eingeloggt ist, und verknüpft
+die Bestellung mit dem Konto — bleibt aber weiterhin ohne Login nutzbar. Der
+Nachrichten-Tab ist als Platzhalter angelegt, bis Modul 9 folgt.
+
+Als Nächstes: Modul 8 (Newsletter-Verwaltung im Admin-Bereich — der
+öffentliche Double-Opt-In-Flow läuft bereits seit Phase 0).
 
 ## Setup
 

@@ -7,7 +7,7 @@ import { getResendClient, RESEND_FROM_EMAIL } from "@/lib/resend";
 
 const subscribeSchema = z.object({
   email: z.string().trim().email(),
-  source: z.enum(["footer", "checkout", "popup"]).default("footer"),
+  source: z.enum(["footer", "checkout", "popup", "profile"]).default("footer"),
   // Honeypot: real users never fill this hidden field, bots often do.
   company: z.string().max(0).optional().or(z.literal("")),
 });
