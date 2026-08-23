@@ -1,18 +1,19 @@
 @import "tailwindcss";
 
 /*
- * Conceptly Markenwelt — Richtwerte aus dem Logo (Conceptly_-_Final.pdf).
- * Die exakten Hex-Werte sollten mit dem Original-PDF abgeglichen werden,
- * sobald es als Datei vorliegt; bis dahin sind dies die im Build-Prompt
- * vorgegebenen Richtwerte.
+ * Conceptly Markenwelt — exakte Werte, aus den Vektorpfaden von
+ * Conceptly_-_Final.pdf ausgelesen (Wordmark/Rahmen: #313139, Sand-Circle:
+ * #E4D6BF/#D6C5AE). --color-sand-dark ist keine Logofarbe, sondern eine für
+ * Text/Hover-Kontrast auf Weiß abgedunkelte Ableitung derselben Farbfamilie
+ * (WCAG AA, ≥4.5:1 auf Weiß).
  */
 :root {
-  --color-anthracite: #2a2a2e;
-  --color-anthracite-soft: #46464b;
-  --color-sand: #c9ae87;
-  --color-sand-light: #e8dcc8;
-  --color-sand-dark: #a98c62;
-  --color-cream: #faf7f2;
+  --color-anthracite: #313139;
+  --color-anthracite-soft: #55555f;
+  --color-sand: #d6c5ae;
+  --color-sand-light: #e4d6bf;
+  --color-sand-dark: #8c6f47;
+  --color-cream: #faf6f0;
 
   --background: #ffffff;
   --foreground: var(--color-anthracite);

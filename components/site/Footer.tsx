@@ -16,7 +16,7 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="grid gap-12 sm:grid-cols-3">
           <div>
-            <Logo variant="full" className="items-start" />
+            <Logo variant="full" className="w-48" />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-anthracite-soft">
               Kuratierte Deko- und Lifestyle-Produkte für ein urbanes
               Zuhause mit Charakter.

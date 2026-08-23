@@ -46,14 +46,17 @@ npm run dev
 
 ## Branding
 
-Die im Build-Prompt vorgegebenen Farbwerte (`#2A2A2E` Anthrazit, `#C9AE87`
-Sand) sind als CSS-Variablen in `app/globals.css` hinterlegt und über
-Tailwind-Utilities (`bg-anthracite`, `text-sand-dark`, …) nutzbar. Die
-Logo-Komponente (`components/Logo.tsx`) ist aus der Markenbeschreibung
-nachgebaut (Script-Wordmark, Sand-Brush-Circle, dünner Rahmen, gesperrte
-Tagline) — sobald `Conceptly_-_Final.pdf` als Datei vorliegt, den echten
-Export unter `/public/logo/` ablegen und `Logo.tsx` auf ein `<Image>`
-umstellen.
+Echtes Logo aus `Conceptly_-_Final.pdf` eingebunden: die Vektorpfade wurden
+ausgelesen und als PNGs unter `/public/logo/` exportiert (`conceptly-full`
+mit Tagline, `conceptly-compact` ohne Tagline für den Header, `conceptly-mark`
+als isolierter Brush-Circle für Icons/Favicon/Hero-Hintergrund).
+`components/Logo.tsx` rendert diese Assets direkt per `next/image`. Die
+Farbwerte in `app/globals.css` sind exakt aus den PDF-Vektorpfaden
+ausgelesen (`#313139` Anthrazit, `#E4D6BF`/`#D6C5AE` Sand); `--color-sand-dark`
+ist eine für Text-/Hover-Kontrast auf Weiß abgedunkelte Ableitung derselben
+Farbfamilie (WCAG AA). Die Headline-Schrift ist Google Fonts „Yellowtail"
+als bester Web-Font-Match für die brush-artige Script-Anmutung des Original-
+Schriftzugs.
 
 ## Datenmodell & RLS
 

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Dancing_Script } from "next/font/google";
+import { Inter, Yellowtail } from "next/font/google";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import "./globals.css";
@@ -9,10 +9,10 @@ const bodyFont = Inter({
   subsets: ["latin"],
 });
 
-const scriptFont = Dancing_Script({
+const scriptFont = Yellowtail({
   variable: "--font-script",
   subsets: ["latin"],
-  weight: ["700"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
