@@ -205,13 +205,41 @@ export interface Database {
       categories: TableDef<CategoryRow, Omit<CategoryRow, "id"> & { id?: string }>;
       products: TableDef<
         ProductRow,
-        Omit<ProductRow, "id" | "created_at" | "updated_at"> & {
+        Omit<
+          ProductRow,
+          | "id"
+          | "created_at"
+          | "updated_at"
+          | "currency"
+          | "status"
+          | "featured"
+          | "stock_tracking"
+          | "low_stock_threshold"
+          | "short_description"
+          | "description"
+          | "seo_title"
+          | "seo_description"
+        > & {
           id?: string;
+          currency?: string;
+          status?: ProductStatus;
+          featured?: boolean;
+          stock_tracking?: boolean;
+          low_stock_threshold?: number;
+          short_description?: string | null;
+          description?: string | null;
+          seo_title?: string | null;
+          seo_description?: string | null;
         }
       >;
       product_images: TableDef<
         ProductImageRow,
-        Omit<ProductImageRow, "id"> & { id?: string }
+        Omit<ProductImageRow, "id" | "alt_text" | "sort_order" | "is_primary"> & {
+          id?: string;
+          alt_text?: string | null;
+          sort_order?: number;
+          is_primary?: boolean;
+        }
       >;
       product_variants: TableDef<
         ProductVariantRow,

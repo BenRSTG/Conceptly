@@ -4,18 +4,26 @@ Webshop für kuratierte Deko- und Lifestyle-Produkte. Next.js (App Router) ·
 TypeScript · Tailwind CSS v4 · Supabase (Postgres, Auth, Storage) · Stripe +
 PayPal · Resend.
 
-**Aktueller Stand: Phase 0 (Fundament) abgeschlossen.** Next.js-Projekt
-steht, das vollständige Datenmodell aus der Spec liegt als Supabase-Migration
-vor, das Conceptly-Branding (Anthrazit/Sand/Weiß, Script-Wordmark,
-Brush-Circle-Motiv) ist als Design-System + Grundlayout (Header/Footer)
-umgesetzt, die Startseite und ein erster `/shop`-Grundgerüst sind live, die
-DSGVO-konforme Newsletter-Anmeldung (Double-Opt-In via Resend, Bestätigung/
-Abmeldung) funktioniert end-to-end, und alle rechtlichen Pflichtseiten
-(Impressum, AGB, Widerrufsbelehrung inkl. Muster-Formular, Datenschutz,
-Versand) sind als geprüft zu befüllende Platzhalter angelegt.
+**Aktueller Stand: Phase 0 (Fundament) + Modul 5 (Admin-Produktverwaltung)
+abgeschlossen.** Next.js-Projekt steht, das vollständige Datenmodell aus der
+Spec liegt als Supabase-Migration vor, das echte Conceptly-Branding ist
+eingebunden (siehe unten), die Startseite und ein erster `/shop`-Grundgerüst
+sind live, die DSGVO-konforme Newsletter-Anmeldung (Double-Opt-In via
+Resend) funktioniert end-to-end, und alle rechtlichen Pflichtseiten sind als
+Platzhalter angelegt.
 
-Als Nächstes: Modul 5 (Admin-Produktverwaltung) als Grundlage für Shop-
-Frontend, Checkout, Instagram-Generator und Reporting.
+Modul 5 ergänzt einen passwortgeschützten Admin-Bereich (`/admin`, Supabase-
+Auth-Login + `admin_users`-Gate): Produktliste mit Such-/Status-/
+Kategorie-Filtern und Mehrfachauswahl (veröffentlichen/archivieren/löschen
+in einem Rutsch), einen Produkt-Editor mit Live-Vorschau, Drag-&-Drop-
+Bilder-Upload nach Supabase Storage, einem Varianten-Editor und SEO-Feldern,
+sowie eine einfache Kategorienverwaltung. Lagerbestand-Warnungen laufen über
+`low_stock_threshold` und erscheinen auf dem Admin-Dashboard. Ein
+Admin-Login und ein echtes Supabase-Projekt sind nötig, um den Bereich zu
+testen — lokal ohne Zugangsdaten konnte nur das Auth-Gate selbst
+(Redirect-Verhalten) geprüft werden, nicht die Formulare/Uploads dahinter.
+
+Als Nächstes: Modul 6 (Shop-Frontend & Checkout mit Stripe/PayPal).
 
 ## Setup
 
