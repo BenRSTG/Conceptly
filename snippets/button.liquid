@@ -1,0 +1,69 @@
+{% doc %}
+  Renders a button, either as a link (`url` given) or a `<button>` element.
+
+  @param {string} content - Button label
+  @param {string} [url] - Destination URL; renders a link styled as a button
+  @param {string} [style] - Visual style: 'primary' (default) or 'secondary'
+  @param {string} [type] - For `<button>` only: 'submit' (default) or 'button'
+  @param {string} [class]
+
+  @example
+  {% render 'button', content: 'Kollektion entdecken', url: collection.url %}
+  {% render 'button', content: 'In den Warenkorb', type: 'submit', style: 'primary' %}
+  {% render 'button', content: 'Merken', style: 'secondary' %}
+{% enddoc %}
+
+{% liquid
+  assign style = style | default: 'primary'
+  assign type = type | default: 'submit'
+%}
+
+{% if url %}
+  <a href="{{ url }}" class="button button--{{ style }} {{ class }}">
+    {{ content }}
+  </a>
+{% else %}
+  <button type="{{ type }}" class="button button--{{ style }} {{ class }}">
+    {{ content }}
+  </button>
+{% endif %}
+
+{% stylesheet %}
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    border-radius: var(--style-border-radius-inputs);
+    border: 1px solid transparent;
+    font-family: var(--font-body--family);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .button {
+      transition: none;
+    }
+  }
+
+  .button:hover {
+    opacity: 0.85;
+  }
+
+  .button--primary {
+    background: var(--color-button);
+    color: var(--color-button-label);
+    border-color: var(--color-button);
+  }
+
+  .button--secondary {
+    background: transparent;
+    color: var(--color-secondary-button-label);
+    border-color: currentcolor;
+  }
+{% endstylesheet %}

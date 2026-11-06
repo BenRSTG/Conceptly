@@ -1,0 +1,64 @@
+{% doc %}
+  Renders a price with the legally required "inkl. MwSt., zzgl. Versand"
+  notice. The strikethrough compare-at price only renders when
+  settings.show_compare_at_price is enabled.
+
+  @param {number} price - Price in the shop currency's smallest unit (e.g. product.price)
+  @param {number} [compare_at_price] - Optional compare-at price
+  @param {string} [class]
+
+  @example
+  {% render 'price', price: product.price, compare_at_price: product.compare_at_price %}
+{% enddoc %}
+
+{% liquid
+  assign shipping_url = shop.policies.shipping_policy.url
+%}
+
+<div class="price {{ class }}">
+  <span class="price__amount">
+    {{ price | money }}
+    {% if settings.show_compare_at_price and compare_at_price and compare_at_price > price %}
+      <s class="price__compare-at">{{ compare_at_price | money }}</s>
+    {% endif %}
+  </span>
+  <span class="price__vat-note">
+    {{ 'products.price.vat_included' | t }}
+    {% if shipping_url != blank %}
+      {{ 'products.price.shipping_link_html' | t: url: shipping_url }}
+    {% else %}
+      {{ 'products.price.shipping_text' | t }}
+    {% endif %}
+  </span>
+</div>
+
+{% stylesheet %}
+  .price {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .price__amount {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-weight: 700;
+  }
+
+  .price__compare-at {
+    font-weight: 400;
+    opacity: 0.6;
+    text-decoration: line-through;
+  }
+
+  .price__vat-note {
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+
+  .price__vat-note a {
+    color: inherit;
+    text-decoration: underline;
+  }
+{% endstylesheet %}

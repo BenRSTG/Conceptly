@@ -41,7 +41,7 @@ select {
 
 dialog {
   background-color: var(--color-background);
-  color: var(--color-foreground);
+  color: var(--color-text);
 }
 
 p {
@@ -73,9 +73,21 @@ p:empty {
 
 /** Theme styles below */
 body {
-  font-family: var(--font-primary--family);
+  font-family: var(--font-body--family);
+  font-style: var(--font-body--style);
   background-color: var(--color-background);
-  color: var(--color-foreground);
+  color: var(--color-text);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-header--family);
+  font-style: var(--font-header--style);
+  font-weight: var(--font-header--weight);
 }
 
 /** Section layout utilities */

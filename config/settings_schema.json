@@ -8,18 +8,48 @@
     "theme_support_url": "https://github.com/BenRSTG/Conceptly"
   },
   {
+    "name": "t:general.logo",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "t:labels.logo_image"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 60,
+        "max": 300,
+        "step": 10,
+        "unit": "px",
+        "label": "t:labels.logo_width",
+        "default": 160
+      }
+    ]
+  },
+  {
     "name": "t:general.typography",
     "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:info.typography_pairing"
+      },
       {
         "type": "header",
         "content": "t:general.fonts"
       },
       {
         "type": "font_picker",
-        "id": "type_primary_font",
-        "default": "work_sans_n4",
-        "label": "t:general.primary"
+        "id": "type_header_font",
+        "default": "playfair_display_n4",
+        "label": "t:labels.header_font"
       },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "default": "work_sans_n4",
+        "label": "t:labels.body_font"
+      }
     ]
   },
   {
@@ -57,16 +87,50 @@
     "name": "t:general.colors",
     "settings": [
       {
-        "type": "color",
-        "id": "background_color",
-        "default": "#FFFFFF",
-        "label": "t:labels.background"
-      },
-      {
-        "type": "color",
-        "id": "foreground_color",
-        "default": "#333333",
-        "label": "t:labels.foreground"
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          {
+            "type": "color",
+            "id": "background",
+            "default": "#FAF8F5",
+            "label": "t:labels.background"
+          },
+          {
+            "type": "color",
+            "id": "text",
+            "default": "#313139",
+            "label": "t:labels.foreground"
+          },
+          {
+            "type": "color",
+            "id": "button",
+            "default": "#313139",
+            "label": "t:labels.button_background"
+          },
+          {
+            "type": "color",
+            "id": "button_label",
+            "default": "#FAF8F5",
+            "label": "t:labels.button_label"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_label",
+            "default": "#313139",
+            "label": "t:labels.secondary_button_label"
+          }
+        ],
+        "role": {
+          "text": "text",
+          "background": "background",
+          "links": "secondary_button_label",
+          "icons": "text",
+          "primary_button": "button",
+          "primary_button_text": "button_label",
+          "secondary_button": "background",
+          "secondary_button_text": "secondary_button_label"
+        }
       },
       {
         "type": "range",
@@ -77,6 +141,39 @@
         "unit": "px",
         "label": "t:labels.input_corner_radius",
         "default": 4
+      }
+    ]
+  },
+  {
+    "name": "t:general.features",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_wishlist",
+        "label": "t:labels.enable_wishlist",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_free_shipping_bar",
+        "label": "t:labels.enable_free_shipping_bar",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "t:labels.free_shipping_threshold",
+        "default": 50
+      },
+      {
+        "type": "paragraph",
+        "content": "t:info.free_shipping_threshold"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_compare_at_price",
+        "label": "t:labels.show_compare_at_price",
+        "default": true
       }
     ]
   }

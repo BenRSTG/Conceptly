@@ -5,6 +5,78 @@ Alternativen. Neueste zuerst.
 
 ---
 
+## 2026-11-06 — Schriftpaar: Playfair Display (Headlines) + Work Sans (Fließtext)
+
+**Entscheidung:** `type_header_font` Default **Playfair Display**,
+`type_body_font` Default **Work Sans**.
+
+**Begründung:** Die Script-Wortmarke ist Logo, keine Fließtextschrift (siehe
+`PROJEKT.md` Abschnitt 3). Für Headlines passt eine ruhige, elegante Serif
+zur „editorial, ruhig" gewünschten Anmutung (Abschnitt 10) und zu
+hochwertigen Concept-Store-/Interior-Magazin-Vorbildern, ohne mit der
+Script-Logo-Schrift zu konkurrieren. Work Sans ist neutral, sehr gut lesbar
+in kleinen Größen (Produktdaten, UI-Texte, Warenkorb) und deckt Deutsch mit
+Umlauten/Eszett vollständig ab. Beide sind reguläre Google-Fonts-Einträge in
+Shopifys eigener Font-Library (`font_picker`), werden also von Shopify
+selbst gehostet (kein externes Google-Fonts-CDN, siehe Abschnitt 3
+„Datenschutz").
+
+**Verworfene Alternativen:** Die Script-Wortmarke selbst als Headline-Font
+(verworfen laut Briefing); ein zweites Sans für Headlines (zu wenig
+Kontrast/Eigenständigkeit für „hochwertig"); Systemschriften (wirken nicht
+nach Concept Store).
+
+**Offen:** Ben kann beide Fonts jederzeit im Theme-Editor unter
+„Theme-Einstellungen → Typografie" austauschen.
+
+---
+
+## 2026-11-06 — Farbschema-Gruppe: drei Presets in `settings_data.json`, nicht in `settings_schema.json`
+
+**Entscheidung:** Die drei Farbschemata (Hell/Sand/Anthrazit) sind in
+`config/settings_data.json` unter `current.color_schemes` vorbelegt, nicht
+über ein `"default"`-Array direkt im `color_scheme_group`-Setting in
+`settings_schema.json`.
+
+**Begründung:** `shopify theme check` hat ein `"default"`-Array auf
+Gruppenebene als ungültig zurückgewiesen (`Property default is not
+allowed`) — diese Shopify-API-Version erzeugt beim ersten Öffnen nur ein
+einzelnes Schema aus den `definition`-Feld-Defaults. Drei benannte
+Presets vorzubelegen geht nur über `settings_data.json`, genau wie Shopifys
+eigenes Referenz-Theme Dawn es macht (dort ebenfalls mit realen
+Start-Werten statt leer ausgeliefert). Zusätzlich verlangt die aktuelle
+`color_scheme_group`-Validierung ein vollständiges `role`-Mapping
+(u. a. `primary_button_border`, `on_primary_button`, `links`, `icons`) —
+ohne diese Felder bricht `shopify theme check` mit „Missing property"-Fehlern
+ab.
+
+**Verworfene Alternative:** Nur ein Farbschema pflegen und Ben die übrigen
+zwei händisch im Theme-Editor per „+ Schema hinzufügen" anlegen lassen —
+verworfen, weil die Markenfarben dann nicht von Anfang an korrekt vorlägen.
+
+**Nachtrag (selbiger Tag) — `role`-Feld: Dawns bewährtes 8-Felder-Set statt
+erweitertem Schema:** `shopify theme check` (lokaler Linter, CLI 5.0.1)
+verlangt für `color_scheme_group.role` ein erweitertes Set
+(`primary_button_border`, `secondary_button_border`, `on_primary_button`,
+`on_secondary_button`, zusätzlich zu `text`, `background`, `links`, `icons`,
+`primary_button`, `primary_button_text`, `secondary_button`,
+`secondary_button_text`). Der tatsächliche Dev-Shop (`shopify theme dev`,
+echter Upload) hat dieses erweiterte Set beim Hochladen jedoch mit
+„role: primary_button_text ist ungültig" abgelehnt — ein Versions-Unterschied
+zwischen dem lokalen Linter und der Storefront-Validierung dieses Shops,
+vergleichbar mit der `v1.0.0`-vs-`main`-Problematik oben. **Entschieden:**
+exakt Shopify-Referenz-Thema Dawns bewährtes, tatsächlich produktiv
+funktionierendes 8-Felder-Set verwenden (ohne Border-Rollen, ohne
+`on_primary_button`/`on_secondary_button`) — das lädt nachweislich
+fehlerfrei in den echten Shop hoch. **Konsequenz:** `shopify theme check`
+zeigt für `config/settings_schema.json` vier „Missing property"-Fehler, die
+hier bewusst in Kauf genommen werden, weil die lokale Regel strenger ist als
+das, was die Plattform selbst aktuell verlangt — nicht der umgekehrte Fall
+(ungültiger Code, den der Linter übersehen hätte). Vor jedem späteren
+Shopify-CLI-Update prüfen, ob sich das wieder angleicht.
+
+---
+
 ## 2026-11-06 — Plattform-Wechsel: eigener Next.js-Webshop → Shopify-Theme
 
 **Entscheidung:** Conceptly wird als eigenes Shopify-Theme (Online Store 2.0)

@@ -1,0 +1,108 @@
+{% comment %}
+  Versteckte interne Referenzseite: zeigt alle Basis-Komponenten des Themes
+  (Farbschemata, Typografie, Buttons, Badges, Preis) an einem Ort. Nicht in
+  der Navigation verlinkt. Erreichbar über eine Seite mit dem Theme-Template
+  "page.styleguide" (siehe docs/shopify-setup.md bzw. CLAUDE.md).
+{% endcomment %}
+
+<div class="styleguide">
+  <h1>Conceptly — Styleguide</h1>
+  <p>Interne Referenz, nicht für Kunden gedacht. Zeigt die aktuellen Design-Tokens.</p>
+
+  <section class="styleguide__block">
+    <h2>Farbschemata</h2>
+    <p>Reihenfolge entspricht den Einstellungen unter „Theme-Einstellungen → Farben": 1 = Hell, 2 = Sand, 3 = Anthrazit.</p>
+    <div class="styleguide__swatches">
+      {% for scheme in settings.color_schemes %}
+        <div class="styleguide__swatch color-{{ scheme.id }}">
+          <strong>{{ forloop.index }}</strong>
+          <span>{{ scheme.settings.background }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="styleguide__block">
+    <h2>Typografie</h2>
+    <h1>Headline — H1 (Serif)</h1>
+    <h2>Headline — H2 (Serif)</h2>
+    <h3>Headline — H3 (Serif)</h3>
+    <p>
+      Fließtext (Sans). Ruhige, elegante Serif für Überschriften, klare Sans
+      für Lesetext und UI — die Script-Wortmarke bleibt dem Logo vorbehalten.
+    </p>
+  </section>
+
+  <section class="styleguide__block">
+    <h2>Buttons</h2>
+    <div class="styleguide__row">
+      {% render 'button', content: 'Primär', url: '#' %}
+      {% render 'button', content: 'Sekundär', url: '#', style: 'secondary' %}
+    </div>
+  </section>
+
+  <section class="styleguide__block">
+    <h2>Badges</h2>
+    <div class="styleguide__row">
+      {% render 'badge', text: 'Neutral' %}
+      {% render 'badge', text: 'Neu', style: 'accent' %}
+      {% render 'badge', text: 'Handgefertigt', style: 'dark' %}
+    </div>
+  </section>
+
+  <section class="styleguide__block">
+    <h2>Preis</h2>
+    <div class="styleguide__row">
+      {% render 'price', price: 4900 %}
+      {% render 'price', price: 4900, compare_at_price: 5900 %}
+    </div>
+  </section>
+</div>
+
+{% stylesheet %}
+  .styleguide {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-block: 2rem;
+  }
+
+  .styleguide__block {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--color-text);
+  }
+
+  .styleguide__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .styleguide__swatches {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .styleguide__swatch {
+    width: 8rem;
+    height: 8rem;
+    border-radius: var(--style-border-radius-inputs);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid rgb(0 0 0 / 0.1);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Styleguide",
+  "settings": []
+}
+{% endschema %}

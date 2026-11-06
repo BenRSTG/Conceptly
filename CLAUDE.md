@@ -59,7 +59,10 @@ docs/        Anleitungen für Ben (siehe unten)
   Firmendaten: wenn Ben sie noch nicht geliefert hat, ein klar markierter
   `TODO_BEN`-Kommentar im Code statt einer Annahme.
 - **`shopify theme check` muss vor jedem Commit fehlerfrei durchlaufen**
-  (`.theme-check.yml` ist Shopifys `recommended`-Preset, keine Ausnahmen).
+  (`.theme-check.yml` ist Shopifys `recommended`-Preset). Einzige bekannte
+  Ausnahme: `config/settings_schema.json`s `color_schemes`-Rollen — siehe
+  „Nachtrag" in `DECISIONS.md` (lokaler Linter strenger als die echte
+  Storefront-Validierung dieses Shops).
 - Standardwerte im Code werden kommentiert mit „Stand: …" und „Quelle: …".
 - Jede Sektion/jeder Block bekommt sinnvolle `presets`, damit Ben sie im
   Theme-Editor per Klick hinzufügen kann.
@@ -69,9 +72,35 @@ docs/        Anleitungen für Ben (siehe unten)
 
 ## Design-Tokens
 
-Noch nicht final — kommt in Schritt 2 (Design-Tokens & Settings). Startwerte
-stehen bereits fest (aus dem Original-Logo ausgelesen, siehe
-`DECISIONS.md`): Anthrazit `#313139`, Sand `#E4D6BF` / `#D6C5AE`.
+Definiert in `config/settings_schema.json`, ausgegeben als CSS Custom
+Properties in `snippets/css-variables.liquid`.
+
+- **Farben:** Eine Farbschema-Gruppe (`color_schemes`) mit drei vorbelegten
+  Schemata (in `config/settings_data.json`, Reihenfolge wie im
+  Theme-Editor unter „Theme-Einstellungen → Farben"):
+  1. **Hell** — Off-White `#FAF8F5` Hintergrund, Anthrazit `#313139` Text/Buttons.
+  2. **Sand** — Sand-Beige `#E4D6BF` Hintergrund, Anthrazit Text/Buttons.
+  3. **Anthrazit** — Anthrazit `#313139` Hintergrund, Off-White Text, Sand-Buttons.
+
+  Jede Section kann später per `color_scheme`-Einstellung eines dieser drei
+  Schemata wählen (CSS-Klasse `.color-scheme-N`, siehe `css-variables.liquid`).
+  Die Schema-Namen „Hell/Sand/Anthrazit" sind nur in `settings_data.json`
+  hinterlegt — der Theme-Editor zeigt zunächst „Scheme 1/2/3"; Ben kann sie
+  dort einmalig umbenennen (optional, rein kosmetisch).
+- **Schriftpaar:** Serif-Headlines (`type_header_font`, Default **Playfair
+  Display**) + Sans-Fließtext (`type_body_font`, Default **Work Sans**).
+  Begründung in `DECISIONS.md`. Die Script-Wortmarke bleibt dem Logo
+  vorbehalten (nie als Fließtext/UI-Schrift).
+- **Logo:** `settings.logo` (Upload im Theme-Editor) + `settings.logo_width`.
+  Bis Ben ein Logo hochlädt, muss die Header-Section (Schritt 3) auf die
+  gebündelten Dateien in `assets/` zurückfallen.
+- **Feature-Schalter:** `enable_wishlist`, `enable_free_shipping_bar`,
+  `free_shipping_threshold` (Platzhalterwert 50, `TODO_BEN`),
+  `show_compare_at_price`.
+- **Styleguide:** `sections/styleguide.liquid` + `templates/page.styleguide.json`
+  zeigen alle Komponenten. Ben muss dafür einmalig eine Seite mit dem
+  Theme-Template „page.styleguide" anlegen (siehe Test-Anleitung im
+  Commit-Report).
 
 ## Sections (wird laufend ergänzt)
 
@@ -80,7 +109,16 @@ stehen bereits fest (aus dem Original-Logo ausgelesen, siehe
 | `hello-world` | Skeleton-Demo-Inhalt auf der Startseite | Platzhalter, wird in Schritt „Frontpage-Sections" ersetzt |
 | `header` / `header-group` | Kopfzeile | Skeleton-Rohbau, wird in Schritt „Header & Footer" ausgebaut |
 | `footer` / `footer-group` | Fußzeile | Skeleton-Rohbau, wird in Schritt „Header & Footer" ausgebaut |
+| `styleguide` | Interne Komponenten-Übersicht (`page.styleguide`) | Fertig |
 | `product`, `collection`, `collections`, `cart`, `blog`, `article`, `page`, `search`, `password`, `404` | Seiten-Grundgerüste | Skeleton-Rohbau, unverändert |
+
+## Basis-Snippets
+
+| Snippet | Zweck |
+| --- | --- |
+| `button` | Primär-/Sekundär-Button (Link oder `<button>`) |
+| `badge` | Kleines Label (Neutral/Sand/Anthrazit) |
+| `price` | Preis inkl. „inkl. MwSt."-Hinweis + verlinktem Versandhinweis, optionaler Streichpreis |
 
 ## Metafelder & Metaobjekte
 
