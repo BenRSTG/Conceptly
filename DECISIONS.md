@@ -5,6 +5,34 @@ Alternativen. Neueste zuerst.
 
 ---
 
+## 2026-11-06 — Metafelder/Metaobjekte per Admin API statt manuellem Klicken
+
+**Entscheidung:** Alle Produkt-Metafelder und Metaobjekt-Typen (Hersteller,
+Lookbook, Lookbook-Hotspot) wurden per Shopify Admin GraphQL API angelegt,
+nicht von Ben manuell über Einstellungen → Custom data.
+
+**Begründung:** Ben gefragt (`AskUserQuestion`) — er wollte die schnellere,
+fehlerfreiere Variante. Dafür hat er einmalig eine Custom App mit
+Admin-API-Scopes erstellt (`read_products`, `write_products`,
+`read_metaobject_definitions`, `write_metaobject_definitions`,
+`read_metaobjects`, `write_metaobjects`) und mir den Zugriffstoken über ein
+sicheres Formular gegeben (nie im Klartext im Chat). Zehn Definitionen
+(7 Produkt-Metafelder + 3 Metaobjekt-Typen) wurden damit in Sekunden ohne
+Tippfehler angelegt, alle mit `storefront: PUBLIC_READ`, die relevanten
+Produkt-Felder zusätzlich angepinnt (erscheinen oben auf der
+Produktbearbeitungsseite). Vollständige Liste in `docs/metafelder.md`.
+
+**Verworfene Alternative:** Ben klickt alle Definitionen selbst über die
+Custom-Data-Oberfläche an (ca. 20–30 Minuten, fehleranfälliger bei
+Feldtypen/Validierungen) — die manuelle Variante war die andere angebotene
+Option.
+
+**Hinweis:** Die Custom App bleibt installiert (für spätere
+Metafeld-Änderungen nützlich), wird vom Theme selbst zur Laufzeit aber
+nicht gebraucht. Ben kann sie jederzeit im Admin deinstallieren.
+
+---
+
 ## 2026-11-06 — Header-Suche: einfaches Formular statt Predictive Search (vorerst)
 
 **Entscheidung:** Das Such-Icon im Header öffnet ein normales Formular zur

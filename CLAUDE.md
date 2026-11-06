@@ -149,8 +149,22 @@ Properties in `snippets/css-variables.liquid`.
 
 ## Metafelder & Metaobjekte
 
-Noch keine angelegt — kommt in Schritt „Metafeld-/Metaobjekt-Definitionen",
-dokumentiert dann ausführlich in `docs/metafelder.md`.
+Angelegt (Schritt 4), ausführlich dokumentiert in `docs/metafelder.md`.
+Namespace `conceptly`, alle mit `storefront: PUBLIC_READ`.
+
+- **Produkt:** `material`, `masse`, `pflege`, `story`, `lieferzeit`
+  (Override), `hersteller` (Verweis auf Metaobjekt „Hersteller"),
+  `passt_dazu` (Liste von Produkten).
+- **Metaobjekt „Hersteller"** (`hersteller`): `name`, `anschrift`,
+  `kontakt`, `sicherheitshinweise`.
+- **Metaobjekt „Lookbook"** (`lookbook`): `titel`, `raumbild`, `text`,
+  `hotspots` (Liste von „Lookbook-Hotspot").
+- **Metaobjekt „Lookbook-Hotspot"** (`lookbook_hotspot`, Hilfstyp):
+  `produkt`, `x_position`, `y_position` (0–100).
+
+Angelegt über die Shopify Admin GraphQL API (einmalige Custom App mit
+Admin-API-Token, nicht Teil des Theme-Codes — siehe `docs/metafelder.md`
+„Technische Details").
 
 ## Docs für Ben
 
