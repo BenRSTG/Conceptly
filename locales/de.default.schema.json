@@ -1,0 +1,101 @@
+{
+  "general": {
+    "404": "Nicht gefunden",
+    "article": "Artikel",
+    "badge": "Badge",
+    "block": "Block",
+    "blog": "Blog",
+    "button": "Button",
+    "cart": "Warenkorb",
+    "collection": "Kollektion",
+    "collections": "Kollektionen",
+    "collection_card": "Kollektionskarte",
+    "collections_grid": "Kollektions-Raster",
+    "colors": "Farben",
+    "column": "Spalte",
+    "content": "Inhalt",
+    "custom_section": "Freie Section",
+    "features": "Funktionen",
+    "fonts": "Schriften",
+    "footer": "Fußzeile",
+    "group": "Gruppe",
+    "header": "Kopfzeile",
+    "layout": "Layout",
+    "logo": "Logo",
+    "main": "Haupt",
+    "page": "Seite",
+    "password": "Passwort",
+    "price": "Preis",
+    "primary": "Primär",
+    "product": "Produkt",
+    "row": "Zeile",
+    "search": "Suche",
+    "secondary": "Sekundär",
+    "section": "Section",
+    "settings": "Einstellungen",
+    "sidebar": "Seitenleiste",
+    "social": "Social Media",
+    "text": "Text",
+    "theme": "Theme",
+    "typography": "Typografie"
+  },
+  "info": {
+    "typography_pairing": "Serif für Überschriften, Sans für Fließtext/UI — die Script-Logo-Schrift ist nur fürs Logo, nie für Fließtext.",
+    "free_shipping_threshold": "Platzhalterwert — vor dem Livegang durch Bens echte Versandkostenfrei-Grenze ersetzen."
+  },
+  "labels": {
+    "alignment": "Ausrichtung",
+    "background": "Hintergrund",
+    "body_font": "Fließtext-Schrift",
+    "button_background": "Button-Hintergrund",
+    "button_label": "Button-Text",
+    "enable_free_shipping_bar": "Versandkostenfrei-Fortschrittsbalken im Warenkorb zeigen",
+    "enable_wishlist": "Merkliste aktivieren (Herz-Symbol)",
+    "foreground": "Vordergrund",
+    "free_shipping_threshold": "Versandkostenfrei-Grenze",
+    "grid_gap": "Rasterabstand",
+    "grid_item_width": "Breite der Rasterelemente",
+    "header_font": "Überschriften-Schrift",
+    "input_corner_radius": "Eckenradius von Eingabefeldern",
+    "layout_direction": "Layout-Richtung",
+    "logo_image": "Logo",
+    "logo_width": "Logo-Breite",
+    "menu": "Menü",
+    "padding": "Innenabstand",
+    "page_margin": "Seitenrand",
+    "page_width": "Seitenbreite",
+    "secondary_button_label": "Sekundärer Button-Text",
+    "show_compare_at_price": "Durchgestrichenen Streichpreis zeigen",
+    "show_payment_icons": "Zahlungssymbole zeigen",
+    "social_facebook_url": "Facebook-URL",
+    "social_instagram_url": "Instagram-URL",
+    "social_pinterest_url": "Pinterest-URL",
+    "social_tiktok_url": "TikTok-URL",
+    "text_style": "Textstil",
+    "text": "Text"
+  },
+  "options": {
+    "alignment": {
+      "left": "Links",
+      "center": "Zentriert",
+      "right": "Rechts"
+    },
+    "direction": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertikal"
+    },
+    "page_width": {
+      "narrow": "Schmal",
+      "wide": "Breit"
+    },
+    "size": {
+      "large": "Groß",
+      "small": "Klein"
+    },
+    "text_style": {
+      "title": "Titel",
+      "subtitle": "Untertitel",
+      "normal": "Normaler Text"
+    }
+  }
+}

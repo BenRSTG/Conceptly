@@ -127,9 +127,11 @@
           "links": "secondary_button_label",
           "icons": "text",
           "primary_button": "button",
-          "primary_button_text": "button_label",
+          "on_primary_button": "button_label",
+          "primary_button_border": "button",
           "secondary_button": "background",
-          "secondary_button_text": "secondary_button_label"
+          "on_secondary_button": "secondary_button_label",
+          "secondary_button_border": "secondary_button_label"
         }
       },
       {
@@ -174,6 +176,31 @@
         "id": "show_compare_at_price",
         "label": "t:labels.show_compare_at_price",
         "default": true
+      }
+    ]
+  },
+  {
+    "name": "t:general.social",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram_url",
+        "label": "t:labels.social_instagram_url"
+      },
+      {
+        "type": "url",
+        "id": "social_pinterest_url",
+        "label": "t:labels.social_pinterest_url"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook_url",
+        "label": "t:labels.social_facebook_url"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok_url",
+        "label": "t:labels.social_tiktok_url"
       }
     ]
   }

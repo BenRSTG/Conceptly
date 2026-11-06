@@ -5,6 +5,27 @@ Alternativen. Neueste zuerst.
 
 ---
 
+## 2026-11-06 — Header-Suche: einfaches Formular statt Predictive Search (vorerst)
+
+**Entscheidung:** Das Such-Icon im Header öffnet ein normales Formular zur
+`/search`-Seite (`routes.search_url`), keine Live-Vorschläge per AJAX.
+
+**Begründung:** Volle Predictive Search (Produkt-/Kollektions-/
+Artikelvorschläge während des Tippens) ist in `PROJEKT.md` Abschnitt 4.D
+vorgesehen, hängt technisch aber eng mit Filtern/Sortierung und der
+Search & Discovery-App zusammen, die erst in Schritt 5
+(„Produktseite + Kollektionsseiten") dazukommt. Sie jetzt isoliert zu bauen
+hieße, Logik doppelt zu schreiben oder halbfertig zu lassen. Die einfache
+Formular-Suche erfüllt die Kernanforderung (Ben braucht Code-frei nichts zu
+tun, Kunden können suchen) vollständig, bis Schritt 5 sie durch Live-
+Vorschläge ersetzt oder ergänzt.
+
+**Verworfene Alternative:** Eigene AJAX-Predictive-Search jetzt selbst
+bauen (höheres Risiko für halbfertige/fehleranfällige Logik, die in
+Schritt 5 ohnehin überarbeitet werden müsste).
+
+---
+
 ## 2026-11-06 — Schriftpaar: Playfair Display (Headlines) + Work Sans (Fließtext)
 
 **Entscheidung:** `type_header_font` Default **Playfair Display**,
@@ -54,26 +75,27 @@ ab.
 zwei händisch im Theme-Editor per „+ Schema hinzufügen" anlegen lassen —
 verworfen, weil die Markenfarben dann nicht von Anfang an korrekt vorlägen.
 
-**Nachtrag (selbiger Tag) — `role`-Feld: Dawns bewährtes 8-Felder-Set statt
-erweitertem Schema:** `shopify theme check` (lokaler Linter, CLI 5.0.1)
-verlangt für `color_scheme_group.role` ein erweitertes Set
-(`primary_button_border`, `secondary_button_border`, `on_primary_button`,
-`on_secondary_button`, zusätzlich zu `text`, `background`, `links`, `icons`,
-`primary_button`, `primary_button_text`, `secondary_button`,
-`secondary_button_text`). Der tatsächliche Dev-Shop (`shopify theme dev`,
-echter Upload) hat dieses erweiterte Set beim Hochladen jedoch mit
-„role: primary_button_text ist ungültig" abgelehnt — ein Versions-Unterschied
-zwischen dem lokalen Linter und der Storefront-Validierung dieses Shops,
-vergleichbar mit der `v1.0.0`-vs-`main`-Problematik oben. **Entschieden:**
-exakt Shopify-Referenz-Thema Dawns bewährtes, tatsächlich produktiv
-funktionierendes 8-Felder-Set verwenden (ohne Border-Rollen, ohne
-`on_primary_button`/`on_secondary_button`) — das lädt nachweislich
-fehlerfrei in den echten Shop hoch. **Konsequenz:** `shopify theme check`
-zeigt für `config/settings_schema.json` vier „Missing property"-Fehler, die
-hier bewusst in Kauf genommen werden, weil die lokale Regel strenger ist als
-das, was die Plattform selbst aktuell verlangt — nicht der umgekehrte Fall
-(ungültiger Code, den der Linter übersehen hätte). Vor jedem späteren
-Shopify-CLI-Update prüfen, ob sich das wieder angleicht.
+**Korrektur (selbiger Tag, bei Schritt 3 gefunden) — `role`-Feld: Dawns
+Namen `primary_button_text`/`secondary_button_text` existieren in der
+aktuellen API nicht mehr, richtig heißt es `on_primary_button`/
+`on_secondary_button`:** Beim Testen gegen den echten Dev-Shop
+(`shopify theme dev`) wurde `primary_button_text` konsequent mit
+„role: primary_button_text ist ungültig" abgelehnt — auch mit dem
+vermeintlich „bewährten" Dawn-8-Felder-Set (vorheriger, mittlerweile
+überholter Eintrag oben). Systematisch durchprobiert (Rollen einzeln
+entfernt/umbenannt, Fehlermeldungen der Live-Validierung ausgewertet): Die
+Plattform fordert exakt das von `shopify theme check` verlangte erweiterte
+Rollen-Set, nur unter anderen Namen als Dawns älterer Konvention —
+`on_primary_button`/`on_secondary_button` statt `primary_button_text`/
+`secondary_button_text`, plus `primary_button_border`/
+`secondary_button_border` (hier auf bereits vorhandene Definition-Felder
+`button`/`secondary_button_label` gemappt statt eigener neuer Farbfelder,
+um die Zahl der Theme-Editor-Einstellungen klein zu halten). Mit dieser
+Benennung sind **sowohl** `shopify theme check` **als auch** der echte
+Upload fehlerfrei — der scheinbare Linter-vs-Plattform-Konflikt war in
+Wahrheit nur ein falscher Feldname, keine echte Versions-Diskrepanz. Der
+vorherige Eintrag oben („Dawns bewährtes 8-Felder-Set") ist damit überholt;
+er bleibt stehen, um die Fehlersuche nachvollziehbar zu halten.
 
 ---
 

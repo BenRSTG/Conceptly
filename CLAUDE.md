@@ -41,8 +41,9 @@ config/      settings_schema.json (Theme-Einstellungen, im Editor sichtbar)
              + settings_data.json (aktuell gespeicherte Werte, vom
              Theme-Editor verwaltet — nicht von Hand editieren)
 layout/      theme.liquid (Dokument-Grundgerüst), password.liquid
-locales/     Übersetzungsstrings (en.default.json + .schema.json).
-             Deutsch kommt als de.default.json, sobald Header/Footer stehen.
+locales/     Übersetzungsstrings. de.default.json/.schema.json ist die
+             einzige Sprache (Shop ist vorerst D-only, Phase 2: Englisch
+             über Shopify Markets, siehe PROJEKT.md).
 sections/    Seiten-Bausteine, inkl. header-group.json/footer-group.json
              (Section-Groups) für Header/Footer
 snippets/    Kleine wiederverwendbare Liquid-Fragmente
@@ -59,10 +60,7 @@ docs/        Anleitungen für Ben (siehe unten)
   Firmendaten: wenn Ben sie noch nicht geliefert hat, ein klar markierter
   `TODO_BEN`-Kommentar im Code statt einer Annahme.
 - **`shopify theme check` muss vor jedem Commit fehlerfrei durchlaufen**
-  (`.theme-check.yml` ist Shopifys `recommended`-Preset). Einzige bekannte
-  Ausnahme: `config/settings_schema.json`s `color_schemes`-Rollen — siehe
-  „Nachtrag" in `DECISIONS.md` (lokaler Linter strenger als die echte
-  Storefront-Validierung dieses Shops).
+  (`.theme-check.yml` ist Shopifys `recommended`-Preset, keine Ausnahmen).
 - Standardwerte im Code werden kommentiert mit „Stand: …" und „Quelle: …".
 - Jede Sektion/jeder Block bekommt sinnvolle `presets`, damit Ben sie im
   Theme-Editor per Klick hinzufügen kann.
@@ -107,8 +105,8 @@ Properties in `snippets/css-variables.liquid`.
 | Section | Zweck | Status |
 | --- | --- | --- |
 | `hello-world` | Skeleton-Demo-Inhalt auf der Startseite | Platzhalter, wird in Schritt „Frontpage-Sections" ersetzt |
-| `header` / `header-group` | Kopfzeile | Skeleton-Rohbau, wird in Schritt „Header & Footer" ausgebaut |
-| `footer` / `footer-group` | Fußzeile | Skeleton-Rohbau, wird in Schritt „Header & Footer" ausgebaut |
+| `header` / `header-group` | Kopfzeile: Logo, Navigation (mit Dropdown für Untermenüs), Suche, Merkliste, Konto, Warenkorb | Fertig |
+| `footer` / `footer-group` | Fußzeile: Newsletter, Social-Links, Rechtliches (automatisch aus `shop.policies` + `pages.impressum`), Zahlungssymbole | Fertig |
 | `styleguide` | Interne Komponenten-Übersicht (`page.styleguide`) | Fertig |
 | `product`, `collection`, `collections`, `cart`, `blog`, `article`, `page`, `search`, `password`, `404` | Seiten-Grundgerüste | Skeleton-Rohbau, unverändert |
 
@@ -119,6 +117,35 @@ Properties in `snippets/css-variables.liquid`.
 | `button` | Primär-/Sekundär-Button (Link oder `<button>`) |
 | `badge` | Kleines Label (Neutral/Sand/Anthrazit) |
 | `price` | Preis inkl. „inkl. MwSt."-Hinweis + verlinktem Versandhinweis, optionaler Streichpreis |
+
+## Header & Footer (Schritt 3)
+
+- **Navigation:** `section.settings.menu` (Link-Liste, Default-Handle
+  `main-menu`) — Ben pflegt sie unter Onlineshop → Navigation. Menüpunkte
+  mit Untermenüs bekommen automatisch ein Dropdown (`<details>`), ein- bis
+  zweistufig. Eine echte "Mega-Menü"-Rasterdarstellung (Bilder/Spalten im
+  Dropdown) ist noch nicht gebaut — bei Bedarf späteres Polish-Item.
+- **Suche:** Bewusst auf eine einfache Formular-Suche (`routes.search_url`,
+  nutzt die vorhandene `sections/search.liquid`) begrenzt, keine
+  Live-Vorschläge/AJAX. Volle Predictive Search mit Produktvorschlägen
+  kommt zusammen mit der Search & Discovery-App-Integration in Schritt 5
+  (Kollektions-Filter) — siehe `DECISIONS.md`.
+- **Merkliste:** Herz-Icon zeigt die Anzahl aus `assets/wishlist.js`
+  (`localStorage`, Key `conceptly:wishlist`). Verlinkt auf `/pages/merkliste`,
+  sobald Ben diese Seite anlegt (vorher Platzhalter-Link). Add/Remove-Buttons
+  auf Produktkarten/-seiten folgen in Schritt 5.
+- **Mobile Navigation:** Button+Klasse-Toggle (`assets/header.js`), kein
+  `<details>`, damit sich das Verhalten per Media Query zuverlässig auf
+  Desktop-Breite umschalten lässt.
+- **Social-Links & Newsletter:** Globale Theme-Einstellungen
+  `settings.social_*_url` (nur sichtbar, wenn befüllt) und ein
+  `{% form 'customer' %}`-Formular mit `contact[tags]=newsletter` — Ben muss
+  in den Shopify-Kundeneinstellungen „Double-Opt-in" aktivieren (siehe
+  `docs/shopify-setup.md`-Ergänzung/Launch-Checkliste).
+- **Rechtliches im Footer:** Läuft automatisch über `shop.policies`
+  (zeigt nur Richtlinien, die Ben im Admin ausgefüllt hat) plus einen
+  Link auf `/pages/impressum`, sobald diese Seite existiert — kein
+  erfundener/toter Link vorher.
 
 ## Metafelder & Metaobjekte
 

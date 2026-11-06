@@ -1,54 +1,297 @@
-<header>
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
+{% comment %}
+  Kopfzeile: Logo, Hauptnavigation (mit Dropdown für Untermenüs, von Ben über
+  Onlineshop → Navigation gepflegt), Suche, Merkliste, Konto, Warenkorb.
+  Mobile Navigation per Button-Toggle (assets/header.js).
+{% endcomment %}
 
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+<header class="header">
+  <div class="header__bar">
+    <button
+      type="button"
+      class="header__nav-toggle icon-button"
+      data-nav-toggle
+      aria-expanded="false"
+      aria-controls="header-nav-{{ section.id }}"
+    >
+      {{ 'icon-menu.svg' | inline_asset_content }}
+      <span class="visually-hidden">{{ 'header.open_menu' | t }}</span>
+    </button>
 
-  <div class="header__icons">
-    {% if shop.customer_accounts_enabled %}
-      {{ 'icon-account.svg' | inline_asset_content | link_to: routes.account_url }}
-    {% endif %}
+    <a href="{{ routes.root_url }}" class="header__logo" style="--logo-width: {{ settings.logo_width }}px" aria-label="{{ 'header.home' | t }}">
+      {% if settings.logo %}
+        {{ settings.logo | image_url: width: settings.logo_width | image_tag: loading: 'eager', widths: '160,240,320' }}
+      {% else %}
+        {% comment %} Stand: Platzhalter-Logo aus assets/, bis Ben ein Logo über Theme-Einstellungen → Logo hochlädt. {% endcomment %}
+        {{ 'logo-full.png' | asset_url | image_tag: loading: 'eager', alt: shop.name }}
+      {% endif %}
+    </a>
 
-    <a href="{{ routes.cart_url }}">
-      {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
+    <nav id="header-nav-{{ section.id }}" class="header__nav" aria-label="{{ 'header.navigation' | t }}">
+      <ul class="header__nav-list">
+        {% for link in section.settings.menu.links %}
+          <li class="header__nav-item">
+            {% if link.links.size > 0 %}
+              <details>
+                <summary>
+                  {{ link.title | link_to: link.url }}
+                  {{ 'icon-chevron-down.svg' | inline_asset_content }}
+                </summary>
+                <ul class="header__nav-dropdown">
+                  {% for child_link in link.links %}
+                    <li>{{ child_link.title | link_to: child_link.url }}</li>
+                  {% endfor %}
+                </ul>
+              </details>
+            {% else %}
+              {{ link.title | link_to: link.url }}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <div class="header__icons">
+      <details class="header__search">
+        <summary class="icon-button">
+          {{ 'icon-search.svg' | inline_asset_content }}
+          <span class="visually-hidden">{{ 'header.open_search' | t }}</span>
+        </summary>
+        <div class="header__search-panel">
+          <form action="{{ routes.search_url }}" method="get" role="search">
+            <input
+              type="search"
+              name="q"
+              value="{{ search.terms | escape }}"
+              placeholder="{{ 'search.placeholder' | t }}"
+              aria-label="{{ 'search.title' | t }}"
+            >
+            <input type="hidden" name="type" value="product,page,article">
+            <button type="submit" class="icon-button">
+              {{ 'icon-search.svg' | inline_asset_content }}
+              <span class="visually-hidden">{{ 'search.submit' | t }}</span>
+            </button>
+          </form>
+        </div>
+      </details>
+
+      {% if shop.customer_accounts_enabled %}
+        <a href="{{ routes.account_url }}" class="icon-button" aria-label="{{ 'header.account' | t }}">
+          {{ 'icon-account.svg' | inline_asset_content }}
+        </a>
       {% endif %}
 
-      {{ 'icon-cart.svg' | inline_asset_content }}
-    </a>
+      {% if settings.enable_wishlist %}
+        <a
+          href="{% if pages.merkliste %}{{ pages.merkliste.url }}{% else %}#{% endif %}"
+          class="icon-button header__wishlist"
+          aria-label="{{ 'header.wishlist' | t }}"
+        >
+          {{ 'icon-heart.svg' | inline_asset_content }}
+          <span class="header__badge" data-wishlist-count hidden></span>
+        </a>
+      {% endif %}
+
+      <a href="{{ routes.cart_url }}" class="icon-button header__cart" aria-label="{{ 'header.cart' | t }}">
+        {{ 'icon-cart.svg' | inline_asset_content }}
+        {% if cart.item_count > 0 %}
+          <span class="header__badge">{{ cart.item_count }}</span>
+        {% endif %}
+      </a>
+    </div>
   </div>
 </header>
 
+<script src="{{ 'wishlist.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'header.js' | asset_url }}" defer="defer"></script>
+
 {% stylesheet %}
-  header {
+  .header {
+    position: relative;
+    z-index: 10;
+  }
+
+  .header__bar {
     height: 5rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 1rem;
   }
-  header a {
-    position: relative;
+
+  .header__logo {
+    display: inline-flex;
+    margin-inline-end: auto;
+  }
+
+  .header__logo img {
+    width: var(--logo-width);
+    max-width: 100%;
+    height: auto;
+  }
+
+  .header__nav-toggle {
+    display: inline-flex;
+  }
+
+  .header__nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-background);
+    border-top: 1px solid currentcolor;
+    padding: 1rem var(--page-margin);
+  }
+
+  .header__nav.is-open {
+    display: block;
+  }
+
+  .header__nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .header__nav-item a {
     text-decoration: none;
     color: var(--color-text);
   }
-  header a sup {
-    position: absolute;
-    left: 100%;
-    overflow: hidden;
-    max-width: var(--page-margin);
-  }
-  header svg {
-    width: 2rem;
-  }
-  header .header__menu,
-  header .header__icons {
+
+  .header__nav-item details summary {
     display: flex;
-    gap: 1rem;
+    align-items: center;
+    gap: 0.375rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .header__nav-item details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .header__nav-dropdown {
+    list-style: none;
+    padding: 0.5rem 0 0 1rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .header__nav-dropdown a {
+    text-decoration: none;
+    color: var(--color-text);
+    opacity: 0.8;
+  }
+
+  .header__icons {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .header__search summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .header__search-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--color-background);
+    border: 1px solid currentcolor;
+    border-radius: var(--style-border-radius-inputs);
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    min-width: 18rem;
+  }
+
+  .header__search-panel form {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .header__search-panel input[type='search'] {
+    flex: 1;
+    border: 1px solid currentcolor;
+    border-radius: var(--style-border-radius-inputs);
+    padding: 0.5rem 0.75rem;
+    background: transparent;
+    color: var(--color-text);
+  }
+
+  .header__badge {
+    position: absolute;
+    top: -0.25rem;
+    right: -0.25rem;
+    min-width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 999px;
+    background: var(--color-button);
+    color: var(--color-button-label);
+    font-size: 0.625rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.25rem;
+  }
+
+  @media (min-width: 48em) {
+    .header__nav-toggle {
+      display: none;
+    }
+
+    .header__nav {
+      display: block !important;
+      position: static;
+      border-top: none;
+      padding: 0;
+    }
+
+    .header__nav-list {
+      flex-direction: row;
+      gap: 1.5rem;
+    }
+
+    .header__nav-item {
+      position: relative;
+    }
+
+    .header__nav-item details {
+      position: relative;
+    }
+
+    .header__nav-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--color-background);
+      border: 1px solid currentcolor;
+      border-radius: var(--style-border-radius-inputs);
+      padding: 0.75rem 1rem;
+      min-width: 12rem;
+      z-index: 20;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .header__nav-dropdown,
+    .header__search-panel {
+      animation: header-fade-in 0.15s ease;
+    }
+  }
+
+  @keyframes header-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 {% endstylesheet %}
 
@@ -59,7 +302,8 @@
     {
       "type": "link_list",
       "id": "menu",
-      "label": "t:labels.menu"
+      "label": "t:labels.menu",
+      "default": "main-menu"
     }
   ]
 }
